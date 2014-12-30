@@ -12,7 +12,7 @@ public class main extends BasicGame{
         main game = new main("ProWars");
         try{
             AppGameContainer game_container = new AppGameContainer(game);
-            game_container.setDisplayMode(1920, 1080, false);
+            game_container.setDisplayMode(1300, 700, false);
             game_container.start();
         } catch (SlickException e){
             e.printStackTrace();
@@ -39,7 +39,7 @@ public class main extends BasicGame{
 
     @Override
     public void render(GameContainer container, Graphics g) throws SlickException {
-        g.scale(0.5f, 0.5f);
+        g.scale(0.4f, 0.4f);
         int size = 7;
         for(int i = 0; i < size; i++){
             for(int j = 0; j <= i; j++){
@@ -51,8 +51,14 @@ public class main extends BasicGame{
                 if (i == 2 && j == 2){
                     g.drawImage(tower.getImage(), iso_x + 768 + 896, iso_y + 184 - 313);
                 }
-                if (i == 4 && j == 4){
+                if (i == 3 && j == 2){
                     g.drawImage(wall.getImage(), iso_x + 768 + 992, iso_y + 184 - 122);
+                }
+                if (i == 4 && j == 2){
+                    g.drawImage(wall.getImage(), iso_x + 768 + 992, iso_y + 184 - 122);
+                }
+                if (i == 5 && j == 2){
+                    g.drawImage(tower.getImage(), iso_x + 768 + 896, iso_y + 184 - 313);
                 }
             }
         }
