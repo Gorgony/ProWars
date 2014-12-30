@@ -47,7 +47,6 @@ public class TutorialGame extends BasicGame {
     public void init(GameContainer arg0) throws SlickException {
         left = new Image("res/Left.png");
         circle = new Image("res/Block.png");
-
     }
 
     @Override
