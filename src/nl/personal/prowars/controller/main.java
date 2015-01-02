@@ -33,7 +33,10 @@ public class main extends BasicGame{
 
     @Override
     public void init(GameContainer container) throws SlickException {
+        //Create game objects and
         //Load sprites
+
+
         tile = new Sprite("tile", 256, 128);
         tower = new Sprite("tower", 256, 332);
         wall = new Sprite("wall", 171, 115);
