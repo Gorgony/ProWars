@@ -7,12 +7,20 @@ import org.newdawn.slick.*;
  * Created by Nathan on 29/12/2014.
  */
 public class main extends BasicGame{
+    public static final int SCREEN_WIDTH = 1300;
+    public static final int SCREEN_HEIGHT = 700;
+    public static final int TILE_HEIGHT = 256;
+    public static final float SCREEN_SCALING = 0.4f;
+    public static final int MAX_SCREEN_WIDTH = (int) (SCREEN_WIDTH/SCREEN_SCALING);
+    public static final int NR_TILES = MAX_SCREEN_WIDTH/(TILE_HEIGHT*2)  ;
+
     Sprite tile, tower, wall;
     public static void main(String[] args){
         main game = new main("ProWars");
         try{
             AppGameContainer game_container = new AppGameContainer(game);
-            game_container.setDisplayMode(1300, 700, false);
+            game_container.setTargetFrameRate(60);
+            game_container.setDisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT, false);
             game_container.start();
         } catch (SlickException e){
             e.printStackTrace();
@@ -26,50 +34,62 @@ public class main extends BasicGame{
     @Override
     public void init(GameContainer container) throws SlickException {
         //Load sprites
-        tile = new Sprite("tile");
-        tower = new Sprite("tower");
-        wall = new Sprite("wall");
-
+        tile = new Sprite("tile", 256, 128);
+        tower = new Sprite("tower", 256, 332);
+        wall = new Sprite("wall", 171, 115);
     }
 
     @Override
     public void update(GameContainer container, int delta) throws SlickException {
-
     }
 
     @Override
     public void render(GameContainer container, Graphics g) throws SlickException {
-        g.scale(0.4f, 0.4f);
-        int size = 7;
-        for(int i = 0; i < size; i++){
+        g.scale(SCREEN_SCALING, SCREEN_SCALING);
+        int screen_x_offset = (int) (SCREEN_WIDTH/(2*SCREEN_SCALING));
+        for(int i = 0; i < NR_TILES; i++){
             for(int j = 0; j <= i; j++){
-                int x = (i - j) *256;
-                int y = (j)*256;
+                int x = (i - j) *TILE_HEIGHT;
+                int y = (j)*TILE_HEIGHT;
                 int iso_x = x-y;
-                int iso_y = (x+y)/2;
-                g.drawImage(tile.getImage(), iso_x + 768 + 896, iso_y + 184);
-                if (i == 2 && j == 2){
-                    g.drawImage(tower.getImage(), iso_x + 768 + 896, iso_y + 184 - 313);
-                }
-                if (i == 3 && j == 2){
-                    g.drawImage(wall.getImage(), iso_x + 768 + 992, iso_y + 184 - 122);
-                }
-                if (i == 4 && j == 2){
-                    g.drawImage(wall.getImage(), iso_x + 768 + 992, iso_y + 184 - 122);
-                }
-                if (i == 5 && j == 2){
-                    g.drawImage(tower.getImage(), iso_x + 768 + 896, iso_y + 184 - 313);
-                }
+                int iso_y = ((x+y)/2) ;
+
+                g.drawImage(tile.getImage(), iso_x + screen_x_offset - tile.getX_offset(), iso_y);
             }
         }
-        for(int i = 1; i < size; i++) {
-            for (int j = i; j < size; j++) {
+        for(int i = 1; i < NR_TILES; i++) {
+            for (int j = i; j < NR_TILES; j++) {
                 int y = (j)*256;
-                int x = (size - 1 - (j - i))*256;
+                int x = (NR_TILES - 1 - (j - i))*256;
                 int iso_x = x-y;
                 int iso_y = (x+y)/2;
-                g.drawImage(tile.getImage(), iso_x + 768 + 896, iso_y + 184);
+                g.drawImage(tile.getImage(), iso_x + (SCREEN_WIDTH/(2*SCREEN_SCALING)) - tile.getX_offset(), iso_y);
             }
         }
+        int x = 0*TILE_HEIGHT;
+        int y = 0*TILE_HEIGHT;
+        int iso_x = (x-y);
+        int iso_y = ((x+y)/2);
+        g.drawImage(tower.getImage(), iso_x + screen_x_offset - tower.getX_offset(), iso_y - tower.getY_offset());
+        x = 1*TILE_HEIGHT;
+        y = 0*TILE_HEIGHT;
+        iso_x = (x-y);
+        iso_y = ((x+y)/2);
+        g.drawImage(wall.getImage(), iso_x + screen_x_offset - wall.getX_offset(), iso_y - wall.getY_offset());
+        x = 2*TILE_HEIGHT;
+        y = 0*TILE_HEIGHT;
+        iso_x = (x-y);
+        iso_y = ((x+y)/2);
+        g.drawImage(wall.getImage(), iso_x + screen_x_offset - wall.getX_offset(), iso_y - wall.getY_offset());
+        x = 3*TILE_HEIGHT;
+        y = 0*TILE_HEIGHT;
+        iso_x = (x-y);
+        iso_y = ((x+y)/2);
+        g.drawImage(tower.getImage(), iso_x + screen_x_offset - tower.getX_offset(), iso_y - tower.getY_offset());
+        x = 3*TILE_HEIGHT;
+        y = 1*TILE_HEIGHT;
+        iso_x = (x-y);
+        iso_y = ((x+y)/2);
+        g.drawImage(wall.getImage(), iso_x + screen_x_offset - wall.getX_offset(), iso_y - wall.getY_offset());
     }
 }
