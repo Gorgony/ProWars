@@ -1,8 +1,13 @@
+//TODO: put all the items in a arraylist and add/move a new item with Collections.binairySearch()
+
 package nl.personal.prowars.controller;
 
+import nl.personal.prowars.domain.GameObject;
 import nl.personal.prowars.domain.Sprite;
 import nl.personal.prowars.domain.Wall;
 import org.newdawn.slick.*;
+
+import java.util.ArrayList;
 
 /**
  * Created by Nathan on 29/12/2014.
@@ -14,6 +19,8 @@ public class main extends BasicGame{
     public static final float SCREEN_SCALING = 0.4f;
     public static final int MAX_SCREEN_WIDTH = (int) (SCREEN_WIDTH/SCREEN_SCALING);
     public static final int NR_TILES = MAX_SCREEN_WIDTH/(TILE_HEIGHT*2)  ;
+
+    ArrayList<GameObject> game_objects = new ArrayList<GameObject>();
 
     Sprite tile, tower, wall;
     Wall test_wall;
