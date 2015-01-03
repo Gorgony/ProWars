@@ -9,18 +9,33 @@ import java.util.ArrayList;
 
 public abstract class GameObject {
     private int x_pos, y_pos, dir;
+    private String type;
     private ArrayList<Sprite> spriteList; //Deze moet static zijn, maar dan wel bij de klassen die GameObject extenden en niet bij GameObject zelf
 
-    public GameObject(int x_pos, int y_pos, int dir) {
+    public GameObject(int x_pos, int y_pos, String type){
         this.x_pos = x_pos;
         this.y_pos = y_pos;
-        this.dir = dir;
-        this.spriteList = new ArrayList<Sprite>(4);
+        this.type = type;
+        this.dir = 0;
+        this.spriteList = new ArrayList<Sprite>();
     }
 
-    public GameObject(int x_pos, int y_pos, int dir, ArrayList<Sprite> spriteList) {
-        this(x_pos, y_pos, dir);
+    public GameObject(int x_pos, int y_pos, String type, int dir) {
+        this(x_pos,y_pos,type);
+        this.dir = dir;
+    }
+
+    public GameObject(int x_pos, int y_pos,String type, int dir, ArrayList<Sprite> spriteList) {
+        this(x_pos, y_pos, type, dir);
         this.spriteList = spriteList;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getX_pos() {
@@ -44,13 +59,13 @@ public abstract class GameObject {
     }
 
     public void setDir(int dir) {
-        if ( (dir >= spriteList.size()) ||  (dir < 0) ){
-            throw new IndexOutOfBoundsException();
-        }
+//        if ( (dir >= spriteList.size()) ||  (dir < 0) ){
+//            throw new IndexOutOfBoundsException();
+//        }
         this.dir = dir;
     }
 
-    public void addSpite(Sprite sprite){
+    public void addSprite(Sprite sprite){
         spriteList.add(sprite);
     }
 
