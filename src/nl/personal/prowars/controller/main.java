@@ -1,6 +1,7 @@
 package nl.personal.prowars.controller;
 
 import nl.personal.prowars.domain.Sprite;
+import nl.personal.prowars.domain.Wall;
 import org.newdawn.slick.*;
 
 /**
@@ -15,6 +16,7 @@ public class main extends BasicGame{
     public static final int NR_TILES = MAX_SCREEN_WIDTH/(TILE_HEIGHT*2)  ;
 
     Sprite tile, tower, wall;
+    Wall test_wall;
     public static void main(String[] args){
         main game = new main("ProWars");
         try{
@@ -39,7 +41,9 @@ public class main extends BasicGame{
 
         tile = new Sprite("tile", 256, 128);
         tower = new Sprite("tower", 256, 332);
-        wall = new Sprite("wall", 171, 115);
+        wall = new Sprite("wall_0", 171, 115);
+
+        test_wall = new Wall(2, 2, 1);
     }
 
     @Override
@@ -94,5 +98,10 @@ public class main extends BasicGame{
         iso_x = (x-y);
         iso_y = ((x+y)/2);
         g.drawImage(wall.getImage(), iso_x + screen_x_offset - wall.getX_offset(), iso_y - wall.getY_offset());
+        x = 0*TILE_HEIGHT;
+        y = 1*TILE_HEIGHT;
+        iso_x = (x-y);
+        iso_y = ((x+y)/2);
+        g.drawImage(test_wall.getSprite().getImage(), iso_x + screen_x_offset - test_wall.getSprite().getX_offset(), iso_y - test_wall.getSprite().getY_offset());
     }
 }

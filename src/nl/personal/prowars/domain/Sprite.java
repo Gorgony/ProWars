@@ -11,11 +11,13 @@ import java.util.ArrayList;
 public class Sprite {
     private Image image;
     private int x_offset, y_offset;
+    private ArrayList<Hitbox> hitboxes;
 
     public Sprite(String name, int x_offset, int y_offset){
         image = loadImage(name);
         this.x_offset = x_offset;
         this.y_offset = y_offset;
+        hitboxes = new ArrayList<Hitbox>();
     }
 
     private Image loadImage(String name){
@@ -38,5 +40,13 @@ public class Sprite {
 
     public int getY_offset() {
         return y_offset;
+    }
+
+    public void addHitbox(Hitbox box){
+        hitboxes.add(box);
+    }
+
+    public ArrayList<Hitbox> getHitboxes(){
+        return hitboxes;
     }
 }

@@ -57,4 +57,6 @@ public abstract class GameObject {
     public Sprite getSprite(){
         return spriteList.get(dir);
     }
+
+    abstract boolean checkCollision(int x, int y);
 }
