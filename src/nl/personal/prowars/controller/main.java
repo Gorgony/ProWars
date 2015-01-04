@@ -50,7 +50,21 @@ public class main extends BasicGame{
         tower = new Sprite("tower", 256, 332);
         wall = new Sprite("wall_0", 171, 115);
 
-        test_wall = new Wall(2, 2, 1);
+        int start = 0;
+        int end = 2;
+        for(int i = start; i <= end; i++){
+            for(int j = start; j <= end; j++){
+                if(i == start || i == end || j == start || j == end){
+                    addWall(i,j);
+                }
+            }
+        }
+        addWall(0,3);
+        addWall(0,4);
+        addWall(0,5);
+        addWall(3,0);
+        addWall(4,0);
+        addWall(5,0);
     }
 
     @Override
@@ -63,52 +77,49 @@ public class main extends BasicGame{
         int screen_x_offset = (int) (SCREEN_WIDTH/(2*SCREEN_SCALING));
         for(int i = 0; i < NR_TILES; i++){
             for(int j = 0; j <= i; j++){
-                int x = (i - j) *TILE_HEIGHT;
-                int y = (j)*TILE_HEIGHT;
+                int x_tile = (i - j);
+                int y_tile = j;
+                int x = x_tile * TILE_HEIGHT;
+                int y = y_tile * TILE_HEIGHT;
                 int iso_x = x-y;
                 int iso_y = ((x+y)/2) ;
-
                 g.drawImage(tile.getImage(), iso_x + screen_x_offset - tile.getX_offset(), iso_y);
+                GameObject temp = searchBuilding(x_tile,y_tile);
+                if(temp != null){
+                    g.drawImage(temp.getSprite().getImage(), iso_x + screen_x_offset - temp.getSprite().getX_offset(), iso_y - temp.getSprite().getY_offset());
+                }
             }
         }
         for(int i = 1; i < NR_TILES; i++) {
             for (int j = i; j < NR_TILES; j++) {
-                int y = (j)*256;
-                int x = (NR_TILES - 1 - (j - i))*256;
+                int x_tile = (NR_TILES - 1 - (j - i));
+                int y_tile = j;
+                int x = x_tile*TILE_HEIGHT;
+                int y = y_tile*TILE_HEIGHT;
                 int iso_x = x-y;
                 int iso_y = (x+y)/2;
-                g.drawImage(tile.getImage(), iso_x + (SCREEN_WIDTH/(2*SCREEN_SCALING)) - tile.getX_offset(), iso_y);
+                g.drawImage(tile.getImage(), iso_x + screen_x_offset - tile.getX_offset(), iso_y);
+                GameObject temp = searchBuilding(x_tile,y_tile);
+                if(temp != null) {
+                    g.drawImage(temp.getSprite().getImage(), iso_x + screen_x_offset - temp.getSprite().getX_offset(), iso_y - temp.getSprite().getY_offset());
+                }
             }
         }
-        int x = 0*TILE_HEIGHT;
-        int y = 0*TILE_HEIGHT;
-        int iso_x = (x-y);
-        int iso_y = ((x+y)/2);
-        g.drawImage(tower.getImage(), iso_x + screen_x_offset - tower.getX_offset(), iso_y - tower.getY_offset());
-        x = 1*TILE_HEIGHT;
-        y = 0*TILE_HEIGHT;
-        iso_x = (x-y);
-        iso_y = ((x+y)/2);
-        g.drawImage(wall.getImage(), iso_x + screen_x_offset - wall.getX_offset(), iso_y - wall.getY_offset());
-        x = 2*TILE_HEIGHT;
-        y = 0*TILE_HEIGHT;
-        iso_x = (x-y);
-        iso_y = ((x+y)/2);
-        g.drawImage(wall.getImage(), iso_x + screen_x_offset - wall.getX_offset(), iso_y - wall.getY_offset());
-        x = 3*TILE_HEIGHT;
-        y = 0*TILE_HEIGHT;
-        iso_x = (x-y);
-        iso_y = ((x+y)/2);
-        g.drawImage(tower.getImage(), iso_x + screen_x_offset - tower.getX_offset(), iso_y - tower.getY_offset());
-        x = 3*TILE_HEIGHT;
-        y = 1*TILE_HEIGHT;
-        iso_x = (x-y);
-        iso_y = ((x+y)/2);
-        g.drawImage(wall.getImage(), iso_x + screen_x_offset - wall.getX_offset(), iso_y - wall.getY_offset());
-        x = 0*TILE_HEIGHT;
-        y = 1*TILE_HEIGHT;
-        iso_x = (x-y);
-        iso_y = ((x+y)/2);
-        g.drawImage(test_wall.getSprite().getImage(), iso_x + screen_x_offset - test_wall.getSprite().getX_offset(), iso_y - test_wall.getSprite().getY_offset());
+    }
+
+    public GameObject searchBuilding(int x, int y){
+        GameObject result = null;
+        for(GameObject g : game_objects){
+            if(g.getX_pos() == x && g.getY_pos() == y && g.getType().equals("Building")){
+                result = g;
+            }
+        }
+        return result;
+    }
+
+    public void addWall(int x, int y){
+        Wall tempWall = new Wall(x,y);
+        game_objects.add(tempWall);
+        tempWall.setDirection(game_objects,true);
     }
 }

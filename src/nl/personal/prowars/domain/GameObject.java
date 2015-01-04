@@ -65,6 +65,10 @@ public abstract class GameObject {
         this.dir = dir;
     }
 
+    public ArrayList<Sprite> getSpriteList(){
+        return spriteList;
+    }
+
     public void addSprite(Sprite sprite){
         spriteList.add(sprite);
     }

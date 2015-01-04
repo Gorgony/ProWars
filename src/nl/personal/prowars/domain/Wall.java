@@ -7,8 +7,8 @@ import java.util.ArrayList;
  * Created by maarten on 1/2/2015.
  */
 public class Wall extends GameObject {
-    public Wall(int x_pos, int y_pos, int dir) {
-        super(x_pos, y_pos, dir);
+    public Wall(int x_pos, int y_pos) {
+        super(x_pos, y_pos, "Building");
         addSprite(new Sprite("tower", 256, 332));
         addSprite(new Sprite("wall_0", 171, 115));
         addSprite(new Sprite("wall_1", 153, 118));
@@ -21,28 +21,35 @@ public class Wall extends GameObject {
 
     @Override
     public Sprite getSprite(){
-        if(dir < 3) {
-            return spriteList.get(dir);
+        if(getDir() == 10) {
+            return getSpriteList().get(1);
+        } else if(getDir() == 5){
+            return getSpriteList().get(2);
         } else {
-            return spriteList.get(0);
+            return getSpriteList().get(0);
         }
     }
 
-    public void setDirection(ArrayList<GameObject> objects){
-        boolean top, left, right, bottom;
-        for(GameObject g : objects){
-            if(g.getType().equals("Wall")) {
+    public void setDirection(ArrayList<GameObject> objects, boolean update_others) {
+        int temp_dir = 0;
+        for (GameObject g : objects) {
+            if (g instanceof Wall) {
                 if (g.getX_pos() == getX_pos() && g.getY_pos() == (getY_pos() - 1)) {
-                    top = true;
+                    temp_dir += 1; //Bovenkant is verbonden met een muur
+                    if(update_others) {((Wall) g).setDirection(objects,false);}
                 } else if (g.getX_pos() == (getX_pos() + 1) && g.getY_pos() == getY_pos()) {
-                    right = true;
+                    temp_dir += 2; //Rechterkant is verbonden met een muur
+                    if(update_others) {((Wall) g).setDirection(objects,false);}
                 } else if (g.getX_pos() == (getX_pos() - 1) && g.getY_pos() == getY_pos()) {
-                    left = true;
+                    temp_dir += 8; //Onderkant is verbonden met een muur
+                    if(update_others) {((Wall) g).setDirection(objects,false);}
                 } else if (g.getX_pos() == getX_pos() && g.getY_pos() == (getY_pos() + 1)) {
-                    bottom = true;
+                    temp_dir += 4; //Linkerkant is verbonden met een muur
+                    if(update_others) {((Wall) g).setDirection(objects,false);}
                 }
             }
         }
-        if()
+        this.setDir(temp_dir);
+        System.out.println(temp_dir);
     }
 }
