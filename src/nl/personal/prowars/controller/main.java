@@ -4,6 +4,7 @@ package nl.personal.prowars.controller;
 
 import nl.personal.prowars.domain.GameObject;
 import nl.personal.prowars.domain.Sprite;
+import nl.personal.prowars.domain.Unit;
 import nl.personal.prowars.domain.Wall;
 import org.newdawn.slick.*;
 
@@ -19,6 +20,8 @@ public class main extends BasicGame{
     public static final float SCREEN_SCALING = 0.4f;
     public static final int MAX_SCREEN_WIDTH = (int) (SCREEN_WIDTH/SCREEN_SCALING);
     public static final int NR_TILES = MAX_SCREEN_WIDTH/(TILE_HEIGHT*2)  ;
+    Unit unit1;
+    Unit unit2;
 
     ArrayList<GameObject> game_objects = new ArrayList<GameObject>();
 
@@ -65,6 +68,10 @@ public class main extends BasicGame{
         addWall(3,0);
         addWall(4,0);
         addWall(5,0);
+        unit1 = new Unit(768,643);
+        unit2 = new Unit(200,850);
+        unit1.setDir(4);
+        unit2.setDir(6);
     }
 
     @Override
@@ -105,6 +112,8 @@ public class main extends BasicGame{
                 }
             }
         }
+        g.drawImage(unit1.getSprite().getImage(),unit1.getIsoX() + screen_x_offset - unit1.getSprite().getX_offset(),unit1.getIsoY() - unit1.getSprite().getY_offset());
+        g.drawImage(unit2.getSprite().getImage(),unit2.getIsoX() + screen_x_offset - unit2.getSprite().getX_offset(),unit2.getIsoY() - unit2.getSprite().getY_offset());
     }
 
     public GameObject searchBuilding(int x, int y){

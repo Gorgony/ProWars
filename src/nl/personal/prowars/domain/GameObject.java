@@ -78,4 +78,12 @@ public abstract class GameObject {
     }
 
     abstract boolean checkCollision(int x, int y);
+
+    public int getIsoX(){
+        return (x_pos-y_pos);
+    }
+
+    public int getIsoY(){
+        return (x_pos+y_pos)/2;
+    }
 }

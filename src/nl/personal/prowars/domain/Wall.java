@@ -50,6 +50,5 @@ public class Wall extends GameObject {
             }
         }
         this.setDir(temp_dir);
-        System.out.println(temp_dir);
     }
 }
