@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Wall extends GameObject {
     public Wall(int x_pos, int y_pos) {
         super(x_pos, y_pos, "Building");
-        addSprite(new Sprite("tower", 256, 332));
+        addSprite(new Sprite("wall_2", 256, 332));
         Sprite temp;
         temp = new Sprite("wall_0", 171, 115);
         temp.addHitbox(new SquareHitbox(new Rect(8, 64))); //Just for testing, wouldn't know if the numbers are right..

@@ -14,10 +14,10 @@ import java.util.ArrayList;
  * Created by Nathan on 29/12/2014, edited by Nathan and Maarten.
  */
 public class main extends BasicGame{
-    public static final int SCREEN_WIDTH = 1300;
-    public static final int SCREEN_HEIGHT = 700;
+    public static final int SCREEN_WIDTH = 1920;
+    public static final int SCREEN_HEIGHT = 1080;
     public static final int TILE_HEIGHT = 256;
-    public static final float SCREEN_SCALING = 0.4f;
+    public static final float SCREEN_SCALING = .25f;
     public static final int MAX_SCREEN_WIDTH = (int) (SCREEN_WIDTH/SCREEN_SCALING);
     public static final int NR_TILES = MAX_SCREEN_WIDTH/(TILE_HEIGHT*2)  ;
     Unit unit1;
@@ -32,7 +32,7 @@ public class main extends BasicGame{
         try{
             AppGameContainer game_container = new AppGameContainer(game);
             game_container.setTargetFrameRate(60);
-            game_container.setDisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT, false);
+            game_container.setDisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT, true);
             game_container.start();
         } catch (SlickException e){
             e.printStackTrace();
