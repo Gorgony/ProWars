@@ -11,7 +11,7 @@ import org.newdawn.slick.*;
 import java.util.ArrayList;
 
 /**
- * Created by Nathan on 29/12/2014.
+ * Created by Nathan on 29/12/2014, edited by Nathan and Maarten.
  */
 public class main extends BasicGame{
     public static final int SCREEN_WIDTH = 1300;
@@ -25,7 +25,7 @@ public class main extends BasicGame{
 
     ArrayList<GameObject> game_objects = new ArrayList<GameObject>();
 
-    Sprite tile, tower, wall;
+    Sprite tile;
     Wall test_wall;
     public static void main(String[] args){
         main game = new main("ProWars");
@@ -45,13 +45,7 @@ public class main extends BasicGame{
 
     @Override
     public void init(GameContainer container) throws SlickException {
-        //Create game objects and
-        //Load sprites
-
-
         tile = new Sprite("tile", 256, 128);
-        tower = new Sprite("tower", 256, 332);
-        wall = new Sprite("wall_0", 171, 115);
 
         int start = 0;
         int end = 2;
@@ -81,7 +75,28 @@ public class main extends BasicGame{
     @Override
     public void render(GameContainer container, Graphics g) throws SlickException {
         g.scale(SCREEN_SCALING, SCREEN_SCALING);
+        renderNormal(container, g);
+    }
+
+    public GameObject searchBuilding(int x, int y){
+        GameObject result = null;
+        for(GameObject g : game_objects){
+            if(g.getX_pos() == x && g.getY_pos() == y && g.getType().equals("Building")){
+                result = g;
+            }
+        }
+        return result;
+    }
+
+    public void addWall(int x, int y){
+        Wall tempWall = new Wall(x,y);
+        game_objects.add(tempWall);
+        tempWall.setDirection(game_objects,true);
+    }
+
+    public void renderNormal(GameContainer container, Graphics g) throws SlickException {
         int screen_x_offset = (int) (SCREEN_WIDTH/(2*SCREEN_SCALING));
+        //Render tiles, at each tile check if a building must be rendered on top of it.
         for(int i = 0; i < NR_TILES; i++){
             for(int j = 0; j <= i; j++){
                 int x_tile = (i - j);
@@ -114,21 +129,34 @@ public class main extends BasicGame{
         }
         g.drawImage(unit1.getSprite().getImage(),unit1.getIsoX() + screen_x_offset - unit1.getSprite().getX_offset(),unit1.getIsoY() - unit1.getSprite().getY_offset());
         g.drawImage(unit2.getSprite().getImage(),unit2.getIsoX() + screen_x_offset - unit2.getSprite().getX_offset(),unit2.getIsoY() - unit2.getSprite().getY_offset());
+
     }
 
-    public GameObject searchBuilding(int x, int y){
-        GameObject result = null;
-        for(GameObject g : game_objects){
-            if(g.getX_pos() == x && g.getY_pos() == y && g.getType().equals("Building")){
-                result = g;
+    public void renderSorted(GameContainer container, Graphics g) throws SlickException{
+        int screen_x_offset = (int) (SCREEN_WIDTH/(2*SCREEN_SCALING));
+        //Render tiles
+        for(int i = 0; i < NR_TILES; i++){
+            for(int j = 0; j <= i; j++){
+                int x_tile = (i - j);
+                int y_tile = j;
+                int x = x_tile * TILE_HEIGHT;
+                int y = y_tile * TILE_HEIGHT;
+                int iso_x = x-y;
+                int iso_y = ((x+y)/2) ;
+                g.drawImage(tile.getImage(), iso_x + screen_x_offset - tile.getX_offset(), iso_y);
             }
         }
-        return result;
+        for(int i = 1; i < NR_TILES; i++) {
+            for (int j = i; j < NR_TILES; j++) {
+                int x_tile = (NR_TILES - 1 - (j - i));
+                int y_tile = j;
+                int x = x_tile*TILE_HEIGHT;
+                int y = y_tile*TILE_HEIGHT;
+                int iso_x = x-y;
+                int iso_y = (x+y)/2;
+                g.drawImage(tile.getImage(), iso_x + screen_x_offset - tile.getX_offset(), iso_y);
+            }
+        }
     }
-
-    public void addWall(int x, int y){
-        Wall tempWall = new Wall(x,y);
-        game_objects.add(tempWall);
-        tempWall.setDirection(game_objects,true);
-    }
+    //Render all the items in the game_objects list
 }
