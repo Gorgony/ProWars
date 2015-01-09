@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class main extends BasicGame{
     public static final int SCREEN_WIDTH = 1920;
     public static final int SCREEN_HEIGHT = 1080;
+    public static boolean FULL_SCREEN = true;
     public static final int TILE_HEIGHT = 256;
     public static final float SCREEN_SCALING = .25f;
     public static final int MAX_SCREEN_WIDTH = (int) (SCREEN_WIDTH/SCREEN_SCALING);
@@ -32,7 +33,7 @@ public class main extends BasicGame{
         try{
             AppGameContainer game_container = new AppGameContainer(game);
             game_container.setTargetFrameRate(60);
-            game_container.setDisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT, true);
+            game_container.setDisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT, FULL_SCREEN);
             game_container.start();
         } catch (SlickException e){
             e.printStackTrace();
