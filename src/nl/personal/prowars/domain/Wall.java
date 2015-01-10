@@ -9,12 +9,22 @@ import java.util.ArrayList;
 public class Wall extends GameObject {
     public Wall(int x_pos, int y_pos) {
         super(x_pos, y_pos, "Building");
-        addSprite(new Sprite("wall_2", 256, 332));
-        Sprite temp;
-        temp = new Sprite("wall_0", 171, 115);
-        temp.addHitbox(new SquareHitbox(new Rect(8, 64))); //Just for testing, wouldn't know if the numbers are right..
-        addSprite(temp);
-        addSprite(new Sprite("wall_1", 153, 118));
+        addSprite(new Sprite("wall_0", 137, 165));
+        addSprite(new Sprite("wall_1", 137, 165));
+        addSprite(new Sprite("wall_2", 137, 165));
+        addSprite(new Sprite("wall_3", 137, 165));
+        addSprite(new Sprite("wall_4", 160, 165));
+        addSprite(new Sprite("wall_5", 160, 121));
+        addSprite(new Sprite("wall_6", 160, 165));
+        addSprite(new Sprite("wall_7", 160, 165));
+        addSprite(new Sprite("wall_8", 160, 165));
+        addSprite(new Sprite("wall_9", 160, 165));
+        addSprite(new Sprite("wall_10", 160, 123));
+        addSprite(new Sprite("wall_11", 160, 165));
+        addSprite(new Sprite("wall_12", 160, 165));
+        addSprite(new Sprite("wall_13", 160, 165));
+        addSprite(new Sprite("wall_14", 160, 165));
+        addSprite(new Sprite("wall_15", 160, 165));
     }
 
     @Override
@@ -24,13 +34,7 @@ public class Wall extends GameObject {
 
     @Override
     public Sprite getSprite(){
-        if(getDir() == 10) {
-            return getSpriteList().get(1);
-        } else if(getDir() == 5){
-            return getSpriteList().get(2);
-        } else {
-            return getSpriteList().get(0);
-        }
+        return getSpriteList().get(getDir());
     }
 
     public void setDirection(ArrayList<GameObject> objects, boolean update_others) {

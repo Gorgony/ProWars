@@ -16,9 +16,9 @@ import java.util.ArrayList;
 public class main extends BasicGame{
     public static final int SCREEN_WIDTH = 1920;
     public static final int SCREEN_HEIGHT = 1080;
-    public static boolean FULL_SCREEN = true;
+    public static boolean FULL_SCREEN = false;
     public static final int TILE_HEIGHT = 256;
-    public static final float SCREEN_SCALING = .25f;
+    public static final float SCREEN_SCALING = .5f;
     public static final int MAX_SCREEN_WIDTH = (int) (SCREEN_WIDTH/SCREEN_SCALING);
     public static final int NR_TILES = MAX_SCREEN_WIDTH/(TILE_HEIGHT*2)  ;
     Unit unit1;
@@ -46,23 +46,17 @@ public class main extends BasicGame{
 
     @Override
     public void init(GameContainer container) throws SlickException {
-        tile = new Sprite("tile", 256, 128);
-
-        int start = 0;
-        int end = 2;
-        for(int i = start; i <= end; i++){
-            for(int j = start; j <= end; j++){
-                if(i == start || i == end || j == start || j == end){
-                    addWall(i,j);
-                }
+        tile = new Sprite("test_tile", 256, 128);
+        for(int i =0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                addWall(i,j);
             }
         }
-        addWall(0,3);
-        addWall(0,4);
-        addWall(0,5);
         addWall(3,0);
         addWall(4,0);
-        addWall(5,0);
+        addWall(0,3);
+        addWall(0,4);
+        addWall(4,4);
         unit1 = new Unit(768,643);
         unit2 = new Unit(200,850);
         unit1.setDir(4);
