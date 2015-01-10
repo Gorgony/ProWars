@@ -14,8 +14,8 @@ import java.util.ArrayList;
  * Created by Nathan on 29/12/2014, edited by Nathan and Maarten.
  */
 public class main extends BasicGame{
-    public static final int SCREEN_WIDTH = 1920;
-    public static final int SCREEN_HEIGHT = 1080;
+    public static final int SCREEN_WIDTH = 1330;
+    public static final int SCREEN_HEIGHT = 768;
     public static boolean FULL_SCREEN = false;
     public static final int TILE_HEIGHT = 256;
     public static final float SCREEN_SCALING = .5f;
@@ -59,7 +59,7 @@ public class main extends BasicGame{
         addWall(0,4);
         addWall(4,4);
         unit1 = new Unit(768,643);
-        unit2 = new Unit(200,850);
+        unit2 = new Unit(0,900);
         unit1.setDir(4);
         unit2.setDir(6);
     }
