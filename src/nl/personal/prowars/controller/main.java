@@ -20,7 +20,8 @@ public class main extends BasicGame{
     public static final int TILE_HEIGHT = 256;
     public static final float SCREEN_SCALING = .5f;
     public static final int MAX_SCREEN_WIDTH = (int) (SCREEN_WIDTH/SCREEN_SCALING);
-    public static final int NR_TILES = MAX_SCREEN_WIDTH/(TILE_HEIGHT*2)  ;
+    public static final int NR_TILES = MAX_SCREEN_WIDTH/(TILE_HEIGHT*2);
+    public static final int SCREEN_Y_OFFSET = TILE_HEIGHT;
     Unit unit1;
     Unit unit2;
 
@@ -46,7 +47,7 @@ public class main extends BasicGame{
 
     @Override
     public void init(GameContainer container) throws SlickException {
-        tile = new Sprite("test_tile", 256, 128);
+        tile = new Sprite("tile", 256, 128);
         for(int i =0; i < 3; i++){
             for(int j = 0; j < 3; j++){
                 addWall(i,j);
@@ -99,7 +100,8 @@ public class main extends BasicGame{
                 int x = x_tile * TILE_HEIGHT;
                 int y = y_tile * TILE_HEIGHT;
                 int iso_x = x-y;
-                int iso_y = ((x+y)/2) ;
+                int iso_y = ((x+y)/2);
+                iso_y += SCREEN_Y_OFFSET;
                 g.drawImage(tile.getImage(), iso_x + screen_x_offset - tile.getX_offset(), iso_y);
                 GameObject temp = searchBuilding(x_tile,y_tile);
                 if(temp != null){
@@ -115,6 +117,7 @@ public class main extends BasicGame{
                 int y = y_tile*TILE_HEIGHT;
                 int iso_x = x-y;
                 int iso_y = (x+y)/2;
+                iso_y += SCREEN_Y_OFFSET;
                 g.drawImage(tile.getImage(), iso_x + screen_x_offset - tile.getX_offset(), iso_y);
                 GameObject temp = searchBuilding(x_tile,y_tile);
                 if(temp != null) {
