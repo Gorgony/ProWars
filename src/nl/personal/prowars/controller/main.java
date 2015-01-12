@@ -105,7 +105,7 @@ public class main extends BasicGame {
 
     public void addWall(int x, int y){
         //Wall tempWall = new Wall(x*TILE_HEIGHT,y*TILE_HEIGHT); //TODO: eigenlijk is dit correct.. moet elke tile een eigen List van GameObejcts krijgen??
-        Wall tempWall = new Wall(x*TILE_HEIGHT,y*TILE_HEIGHT);
+        Wall tempWall = new Wall(x,y);
         game_objects.add(tempWall);
         tempWall.setDirection(game_objects,true);
     }
