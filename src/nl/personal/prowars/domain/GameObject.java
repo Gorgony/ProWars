@@ -1,6 +1,7 @@
 package nl.personal.prowars.domain;
 
 
+
 import java.util.ArrayList;
 
 /**

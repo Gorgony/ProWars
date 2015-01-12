@@ -2,14 +2,15 @@
 
 package nl.personal.prowars.controller;
 
-import nl.personal.prowars.domain.GameObject;
-import nl.personal.prowars.domain.Sprite;
-import nl.personal.prowars.domain.Unit;
-import nl.personal.prowars.domain.Wall;
+import nl.personal.prowars.domain.*;
+import org.lwjgl.Sys;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse; //Why does -> http://slick.ninjacave.com/javadoc/org/newdawn/slick/Input.html#getMouseX() not work
 import org.newdawn.slick.*;
 
+import java.security.Key;
 import java.util.ArrayList;
+import java.awt.Font;
 
 /**
  * Created by Nathan on 29/12/2014, edited by Nathan and Maarten.
@@ -27,6 +28,10 @@ public class main extends BasicGame {
     public int screen_x_offset = (int) (SCREEN_WIDTH/(2*SCREEN_SCALING));
     Unit unit1;
     Unit unit2;
+    Font font = new Font("Verdana", Font.BOLD, 32);
+    TrueTypeFont ttf;
+    Color text_background_color;
+    ConsoleText ct;
 
     ArrayList<GameObject> game_objects = new ArrayList<GameObject>();
 
@@ -49,6 +54,8 @@ public class main extends BasicGame {
 
     @Override
     public void init(GameContainer container) throws SlickException {
+        text_background_color = new Color(64, 64, 64, 192);
+        ttf = new TrueTypeFont(font, true);
         tile = new Sprite("tile", 256, 128);
         for(int i =0; i < 3; i++){
             for(int j = 0; j < 3; j++){
@@ -64,6 +71,7 @@ public class main extends BasicGame {
         unit2 = new Unit(0,900);
         unit1.setDir(4);
         unit2.setDir(6);
+        ct = new ConsoleText();
     }
 
     @Override
@@ -83,6 +91,12 @@ public class main extends BasicGame {
         }
         else if (mouse_y > (SCREEN_HEIGHT - 25)){
             screen_y_offset += 16;
+        }
+
+        while (Keyboard.next()){ //TODO:dit laten werken..
+            if (!Keyboard.getEventKeyState()){ //If a key is released, maar het werkt niet!
+                System.out.println("Key_nr: " + Keyboard.getEventKey());
+            }
         }
 
     }
@@ -149,6 +163,14 @@ public class main extends BasicGame {
         }
         g.drawImage(unit1.getSprite().getImage(),unit1.getIsoX() - unit1.getSprite().getX_offset(),unit1.getIsoY() - unit1.getSprite().getY_offset());
         g.drawImage(unit2.getSprite().getImage(),unit2.getIsoX() - unit2.getSprite().getX_offset(),unit2.getIsoY() - unit2.getSprite().getY_offset());
+
+        //Draw console text
+
+        g.setColor(text_background_color);
+        g.fillRect(0, (SCREEN_HEIGHT / SCREEN_SCALING) - 39, (SCREEN_WIDTH / SCREEN_SCALING), 39);
+        g.setColor(Color.black);
+        g.setFont(ttf);
+        g.drawString("Test text", 3, (SCREEN_HEIGHT/SCREEN_SCALING)-40);
 
     }
 
