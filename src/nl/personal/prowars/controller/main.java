@@ -6,7 +6,7 @@ import nl.personal.prowars.domain.GameObject;
 import nl.personal.prowars.domain.Sprite;
 import nl.personal.prowars.domain.Unit;
 import nl.personal.prowars.domain.Wall;
-import org.lwjgl.input.Mouse;
+import org.lwjgl.input.Mouse; //Why does -> http://slick.ninjacave.com/javadoc/org/newdawn/slick/Input.html#getMouseX() not work
 import org.newdawn.slick.*;
 
 import java.util.ArrayList;
@@ -14,13 +14,14 @@ import java.util.ArrayList;
 /**
  * Created by Nathan on 29/12/2014, edited by Nathan and Maarten.
  */
-public class main extends BasicGame{
+
+
+public class main extends BasicGame {
     public static final int SCREEN_WIDTH = 1280;
     public static final int SCREEN_HEIGHT = 800;
     public static boolean FULL_SCREEN = false;
     public static final int TILE_HEIGHT = 256;
     public static final float SCREEN_SCALING = 1/2f; //TODO: must be mutable
-    public static final int MAX_SCREEN_WIDTH = (int) (SCREEN_WIDTH/SCREEN_SCALING);
     public static final int NR_TILES =20;
     public int screen_y_offset = TILE_HEIGHT;
     public int screen_x_offset = (int) (SCREEN_WIDTH/(2*SCREEN_SCALING));
@@ -67,13 +68,15 @@ public class main extends BasicGame{
 
     @Override
     public void update(GameContainer container, int delta) throws SlickException {
+        //Get input data
         int mouse_x = Mouse.getX();
         int mouse_y = Mouse.getY();
+        //
         if (mouse_x < 25){
-            screen_x_offset += 8; //TODO: Value "8" must depend on the screen scaling..
+            screen_x_offset += 16; //TODO: Value "8" must depend on the screen scaling..
         }
         else if (mouse_x > (SCREEN_WIDTH - 25)){
-            screen_x_offset -= 8;
+            screen_x_offset -= 16;
         }
         if (mouse_y < 25){
             screen_y_offset -= 16;
@@ -101,7 +104,8 @@ public class main extends BasicGame{
     }
 
     public void addWall(int x, int y){
-        Wall tempWall = new Wall(x,y);
+        //Wall tempWall = new Wall(x*TILE_HEIGHT,y*TILE_HEIGHT); //TODO: eigenlijk is dit correct.. moet elke tile een eigen List van GameObejcts krijgen??
+        Wall tempWall = new Wall(x*TILE_HEIGHT,y*TILE_HEIGHT);
         game_objects.add(tempWall);
         tempWall.setDirection(game_objects,true);
     }
@@ -118,10 +122,11 @@ public class main extends BasicGame{
                 iso_x += screen_x_offset;
                 int iso_y = ((x+y)/2);
                 iso_y += screen_y_offset;
-                g.drawImage(tile.getImage(), iso_x + screen_x_offset - tile.getX_offset(), iso_y);
+                g.drawImage(tile.getImage(), iso_x - tile.getX_offset(), iso_y);
                 GameObject temp = searchBuilding(x_tile,y_tile);
                 if(temp != null){
-                    g.drawImage(temp.getSprite().getImage(), iso_x + screen_x_offset - temp.getSprite().getX_offset(), iso_y - temp.getSprite().getY_offset());
+                    //g.drawImage(temp.getSprite().getImage(), temp.getIsoX() + screen_x_offset, temp.getIsoY() + screen_y_offset); dit zou eigenlijk ook moeten, maar dan moet er eerst worden nagedacht over andere zaken. Bovendien zal niet elk object altijd zichtbaar zijn en daarbij ook niet te worden gedrawed..
+                    g.drawImage(temp.getSprite().getImage(), iso_x - temp.getSprite().getX_offset(), iso_y - temp.getSprite().getY_offset());
                 }
             }
         }
@@ -135,15 +140,15 @@ public class main extends BasicGame{
                 iso_x += screen_x_offset;
                 int iso_y = (x+y)/2;
                 iso_y += screen_y_offset;
-                g.drawImage(tile.getImage(), iso_x + screen_x_offset - tile.getX_offset(), iso_y);
+                g.drawImage(tile.getImage(), iso_x - tile.getX_offset(), iso_y);
                 GameObject temp = searchBuilding(x_tile,y_tile);
                 if(temp != null) {
-                    g.drawImage(temp.getSprite().getImage(), iso_x + screen_x_offset - temp.getSprite().getX_offset(), iso_y - temp.getSprite().getY_offset());
+                    g.drawImage(temp.getSprite().getImage(), iso_x - temp.getSprite().getX_offset(), iso_y - temp.getSprite().getY_offset());
                 }
             }
         }
-        g.drawImage(unit1.getSprite().getImage(),unit1.getIsoX() + screen_x_offset - unit1.getSprite().getX_offset(),unit1.getIsoY() - unit1.getSprite().getY_offset());
-        g.drawImage(unit2.getSprite().getImage(),unit2.getIsoX() + screen_x_offset - unit2.getSprite().getX_offset(),unit2.getIsoY() - unit2.getSprite().getY_offset());
+        g.drawImage(unit1.getSprite().getImage(),unit1.getIsoX() - unit1.getSprite().getX_offset(),unit1.getIsoY() - unit1.getSprite().getY_offset());
+        g.drawImage(unit2.getSprite().getImage(),unit2.getIsoX() - unit2.getSprite().getX_offset(),unit2.getIsoY() - unit2.getSprite().getY_offset());
 
     }
 

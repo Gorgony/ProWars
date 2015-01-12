@@ -80,10 +80,10 @@ public abstract class GameObject {
     abstract boolean checkCollision(int x, int y);
 
     public int getIsoX(){
-        return (x_pos-y_pos);
+        return (x_pos-y_pos) - spriteList.get(dir).getX_offset();
     }
 
     public int getIsoY(){
-        return (x_pos+y_pos)/2;
+        return ((x_pos+y_pos)/2) - spriteList.get(dir).getY_offset();
     }
 }
