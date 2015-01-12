@@ -6,6 +6,7 @@ import nl.personal.prowars.domain.GameObject;
 import nl.personal.prowars.domain.Sprite;
 import nl.personal.prowars.domain.Unit;
 import nl.personal.prowars.domain.Wall;
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.*;
 
 import java.util.ArrayList;
@@ -14,21 +15,21 @@ import java.util.ArrayList;
  * Created by Nathan on 29/12/2014, edited by Nathan and Maarten.
  */
 public class main extends BasicGame{
-    public static final int SCREEN_WIDTH = 1330;
-    public static final int SCREEN_HEIGHT = 768;
+    public static final int SCREEN_WIDTH = 1280;
+    public static final int SCREEN_HEIGHT = 800;
     public static boolean FULL_SCREEN = false;
     public static final int TILE_HEIGHT = 256;
-    public static final float SCREEN_SCALING = .5f;
+    public static final float SCREEN_SCALING = 1/2f; //TODO: must be mutable
     public static final int MAX_SCREEN_WIDTH = (int) (SCREEN_WIDTH/SCREEN_SCALING);
-    public static final int NR_TILES = MAX_SCREEN_WIDTH/(TILE_HEIGHT*2);
-    public static final int SCREEN_Y_OFFSET = TILE_HEIGHT;
+    public static final int NR_TILES =20;
+    public int screen_y_offset = TILE_HEIGHT;
+    public int screen_x_offset = (int) (SCREEN_WIDTH/(2*SCREEN_SCALING));
     Unit unit1;
     Unit unit2;
 
     ArrayList<GameObject> game_objects = new ArrayList<GameObject>();
 
     Sprite tile;
-    Wall test_wall;
     public static void main(String[] args){
         main game = new main("ProWars");
         try{
@@ -66,6 +67,21 @@ public class main extends BasicGame{
 
     @Override
     public void update(GameContainer container, int delta) throws SlickException {
+        int mouse_x = Mouse.getX();
+        int mouse_y = Mouse.getY();
+        if (mouse_x < 25){
+            screen_x_offset += 8; //TODO: Value "8" must depend on the screen scaling..
+        }
+        else if (mouse_x > (SCREEN_WIDTH - 25)){
+            screen_x_offset -= 8;
+        }
+        if (mouse_y < 25){
+            screen_y_offset -= 16;
+        }
+        else if (mouse_y > (SCREEN_HEIGHT - 25)){
+            screen_y_offset += 16;
+        }
+
     }
 
     @Override
@@ -91,7 +107,6 @@ public class main extends BasicGame{
     }
 
     public void renderNormal(GameContainer container, Graphics g) throws SlickException {
-        int screen_x_offset = (int) (SCREEN_WIDTH/(2*SCREEN_SCALING));
         //Render tiles, at each tile check if a building must be rendered on top of it.
         for(int i = 0; i < NR_TILES; i++){
             for(int j = 0; j <= i; j++){
@@ -100,8 +115,9 @@ public class main extends BasicGame{
                 int x = x_tile * TILE_HEIGHT;
                 int y = y_tile * TILE_HEIGHT;
                 int iso_x = x-y;
+                iso_x += screen_x_offset;
                 int iso_y = ((x+y)/2);
-                iso_y += SCREEN_Y_OFFSET;
+                iso_y += screen_y_offset;
                 g.drawImage(tile.getImage(), iso_x + screen_x_offset - tile.getX_offset(), iso_y);
                 GameObject temp = searchBuilding(x_tile,y_tile);
                 if(temp != null){
@@ -116,8 +132,9 @@ public class main extends BasicGame{
                 int x = x_tile*TILE_HEIGHT;
                 int y = y_tile*TILE_HEIGHT;
                 int iso_x = x-y;
+                iso_x += screen_x_offset;
                 int iso_y = (x+y)/2;
-                iso_y += SCREEN_Y_OFFSET;
+                iso_y += screen_y_offset;
                 g.drawImage(tile.getImage(), iso_x + screen_x_offset - tile.getX_offset(), iso_y);
                 GameObject temp = searchBuilding(x_tile,y_tile);
                 if(temp != null) {
