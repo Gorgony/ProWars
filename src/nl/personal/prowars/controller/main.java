@@ -75,6 +75,30 @@ public class main extends BasicGame {
     }
 
     @Override
+    public  void keyReleased(int key, char c){
+        if (c == 13){ //Show console/execute command
+            if (ct.isActive()){ //Execute command
+                String command = ct.getText().toLowerCase();
+                if (command == ""){
+                    ct.setActive(false);
+                } else if (command.equals("help")){ //TODO: Let the command be handled by a separate class
+                    ct.setText("Shows this help");
+                }
+            } else{ //Show console
+                ct.setActive(true);
+            }
+        }
+        if (ct.isActive()){
+            if (c >= 32 && c <= 126){
+                ct.addChar(c);
+            } else if (c == 8){
+                ct.removeChar();
+            }
+        }
+    }
+
+
+    @Override
     public void update(GameContainer container, int delta) throws SlickException {
         //Get input data
         int mouse_x = Mouse.getX();
@@ -91,12 +115,6 @@ public class main extends BasicGame {
         }
         else if (mouse_y > (SCREEN_HEIGHT - 25)){
             screen_y_offset += 16;
-        }
-
-        while (Keyboard.next()){ //TODO:dit laten werken..
-            if (!Keyboard.getEventKeyState()){ //If a key is released, maar het werkt niet!
-                System.out.println("Key_nr: " + Keyboard.getEventKey());
-            }
         }
 
     }
@@ -165,12 +183,13 @@ public class main extends BasicGame {
         g.drawImage(unit2.getSprite().getImage(),unit2.getIsoX() - unit2.getSprite().getX_offset(),unit2.getIsoY() - unit2.getSprite().getY_offset());
 
         //Draw console text
-
-        g.setColor(text_background_color);
-        g.fillRect(0, (SCREEN_HEIGHT / SCREEN_SCALING) - 39, (SCREEN_WIDTH / SCREEN_SCALING), 39);
-        g.setColor(Color.black);
-        g.setFont(ttf);
-        g.drawString("Test text", 3, (SCREEN_HEIGHT/SCREEN_SCALING)-40);
+        if (ct.isActive()){
+            g.setColor(text_background_color);
+            g.fillRect(0, (SCREEN_HEIGHT / SCREEN_SCALING) - 39, (SCREEN_WIDTH / SCREEN_SCALING), 39);
+            g.setColor(Color.black);
+            g.setFont(ttf);
+            g.drawString(ct.getText() + "_", 3, (SCREEN_HEIGHT / SCREEN_SCALING) - 40);
+        }
 
     }
 

@@ -9,6 +9,7 @@ public class ConsoleText {
 
     public ConsoleText() {
         active = false;
+        text = "";
     }
 
     public String getText() {
@@ -19,11 +20,24 @@ public class ConsoleText {
         this.text = text;
     }
 
+    public void addChar(char c){
+        text += c;
+    }
+
+    public void removeChar(){
+        if (text.length() > 0){
+            text = text.substring(0, text.length() -1);
+        }
+    }
+
     public boolean isActive() {
         return active;
     }
 
     public void setActive(boolean active) {
+        if (!active){
+            text = "";
+        }
         this.active = active;
     }
 }
