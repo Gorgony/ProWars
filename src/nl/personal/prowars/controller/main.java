@@ -79,7 +79,7 @@ public class main extends BasicGame {
         if (c == 13){ //Show console/execute command
             if (ct.isActive()){ //Execute command
                 String command = ct.getText().toLowerCase();
-                if (command == ""){
+                if (command.equals("")){
                     ct.setActive(false);
                 } else if (command.equals("help")){ //TODO: Let the command be handled by a separate class
                     ct.setText("Shows this help");
