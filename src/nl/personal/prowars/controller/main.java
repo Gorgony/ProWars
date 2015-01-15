@@ -41,6 +41,7 @@ public class main extends BasicGame {
         try{
             AppGameContainer game_container = new AppGameContainer(game);
             game_container.setTargetFrameRate(60);
+            game_container.setVSync(true);
             game_container.setDisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT, FULL_SCREEN);
             game_container.start();
         } catch (SlickException e){
@@ -181,6 +182,8 @@ public class main extends BasicGame {
         }
         g.drawImage(unit1.getSprite().getImage(),unit1.getIsoX() - unit1.getSprite().getX_offset(),unit1.getIsoY() - unit1.getSprite().getY_offset());
         g.drawImage(unit2.getSprite().getImage(),unit2.getIsoX() - unit2.getSprite().getX_offset(),unit2.getIsoY() - unit2.getSprite().getY_offset());
+
+
 
         //Draw console text
         if (ct.isActive()){
