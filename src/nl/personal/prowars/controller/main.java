@@ -24,6 +24,10 @@ public class main extends BasicGame {
     public static final int TILE_HEIGHT = 256;
     public static final float SCREEN_SCALING = 1/2f; //TODO: must be mutable
     public static final int NR_TILES =20;
+    public static final int MIN_SCREEN_X_OFFSET = -NR_TILES*TILE_HEIGHT + (int) (SCREEN_WIDTH/SCREEN_SCALING);
+    public static final int MIN_SCREEN_Y_OFFSET = -NR_TILES*TILE_HEIGHT + (int) (SCREEN_HEIGHT/SCREEN_SCALING);
+    public static final int MAX_SCREEN_X_OFFSET = NR_TILES*TILE_HEIGHT;
+    public static final int MAX_SCREEN_Y_OFFSET = TILE_HEIGHT;
     public int screen_y_offset = TILE_HEIGHT;
     public int screen_x_offset = (int) (SCREEN_WIDTH/(2*SCREEN_SCALING));
     Unit unit1;
@@ -32,6 +36,7 @@ public class main extends BasicGame {
     TrueTypeFont ttf;
     Color text_background_color;
     ConsoleText ct;
+    MouseObject mo;
 
     ArrayList<GameObject> game_objects = new ArrayList<GameObject>();
 
@@ -84,6 +89,8 @@ public class main extends BasicGame {
                     ct.setActive(false);
                 } else if (command.equals("help")){ //TODO: Let the command be handled by a separate class
                     ct.setText("Shows this help");
+                } else if (command.equals("add wall")){
+                    mo = new CommandAddWall(Mouse.getX() + screen_x_offset, Mouse.getY() + screen_y_offset);
                 }
             } else{ //Show console
                 ct.setActive(true);
@@ -106,16 +113,31 @@ public class main extends BasicGame {
         int mouse_y = Mouse.getY();
         //
         if (mouse_x < 25){
-            screen_x_offset += 16; //TODO: Value "8" must depend on the screen scaling..
+            screen_x_offset += 16;
+            if (screen_x_offset > MAX_SCREEN_X_OFFSET){
+                screen_x_offset = MAX_SCREEN_X_OFFSET;
+            }
         }
         else if (mouse_x > (SCREEN_WIDTH - 25)){
             screen_x_offset -= 16;
+            if (screen_x_offset < MIN_SCREEN_X_OFFSET){
+                screen_x_offset = MIN_SCREEN_X_OFFSET;
+            }
         }
         if (mouse_y < 25){
             screen_y_offset -= 16;
+            if (screen_y_offset < MIN_SCREEN_Y_OFFSET){
+                screen_y_offset = MIN_SCREEN_Y_OFFSET;
+            }
         }
         else if (mouse_y > (SCREEN_HEIGHT - 25)){
             screen_y_offset += 16;
+            if (screen_y_offset > MAX_SCREEN_Y_OFFSET){
+                screen_y_offset = MAX_SCREEN_Y_OFFSET;
+            }
+        }
+        if (mo != null){
+            mo.setMousePos(mouse_x, mouse_y);
         }
 
     }
@@ -182,8 +204,9 @@ public class main extends BasicGame {
         }
         g.drawImage(unit1.getSprite().getImage(),unit1.getIsoX() - unit1.getSprite().getX_offset(),unit1.getIsoY() - unit1.getSprite().getY_offset());
         g.drawImage(unit2.getSprite().getImage(),unit2.getIsoX() - unit2.getSprite().getX_offset(),unit2.getIsoY() - unit2.getSprite().getY_offset());
-
-
+        if (mo != null){
+            mo.draw(g, screen_x_offset, screen_y_offset);
+        }
 
         //Draw console text
         if (ct.isActive()){

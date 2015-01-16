@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public abstract class GameObject {
     private int x_pos, y_pos, dir;
     private String type;
-    private ArrayList<Sprite> spriteList; //Deze moet static zijn, maar dan wel bij de klassen die GameObject extenden en niet bij GameObject zelf
+    private ArrayList<Sprite> spriteList;
 
     public GameObject(int x_pos, int y_pos, String type){
         this.x_pos = x_pos;

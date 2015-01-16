@@ -16,18 +16,26 @@ public class CommandAddWall extends MouseObject {
     }
 
     @Override
-    boolean onClick() {
+    public boolean onClick() {
         return false;
     }
 
     @Override
-    void setMousePos(int x, int y) {
+    public void setMousePos(int x, int y) {
         x_pos = x - (x % main.TILE_HEIGHT);
         y_pos = y - (y % main.TILE_HEIGHT);
     }
 
     @Override
-    void draw(Graphics g, int x_offset, int y_offset) {
+    public void draw(Graphics g, int x_offset, int y_offset) {
+        g.drawImage(sprite.getImage(), getIsoX() - sprite.getX_offset() + x_offset, getIsoY() - sprite.getY_offset() + y_offset);
+    }
 
+    public int getIsoX(){
+        return (x_pos-y_pos) - sprite.getX_offset();
+    }
+
+    public int getIsoY(){
+        return ((x_pos+y_pos)/2) - sprite.getY_offset();
     }
 }
