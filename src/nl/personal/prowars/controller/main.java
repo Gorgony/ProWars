@@ -63,21 +63,8 @@ public class main extends BasicGame {
         text_background_color = new Color(64, 64, 64, 192);
         ttf = new TrueTypeFont(font, true);
         tile = new Sprite("tile", 256, 128);
-        for(int i =0; i < 3; i++){
-            for(int j = 0; j < 3; j++){
-                addWall(i,j);
-            }
-        }
-        addWall(3,0);
-        addWall(4,0);
-        addWall(0,3);
-        addWall(0,4);
-        addWall(4,4);
-        unit1 = new Unit(768,643);
-        unit2 = new Unit(0,900);
-        unit1.setDir(4);
-        unit2.setDir(6);
         ct = new ConsoleText();
+        mo = new CommandAddWall(Mouse.getX() + screen_x_offset, Mouse.getY() + screen_y_offset);
     }
 
     @Override
@@ -137,7 +124,7 @@ public class main extends BasicGame {
             }
         }
         if (mo != null){
-            mo.setMousePos(mouse_x, mouse_y);
+            mo.setMousePos(screen_x_offset + mouse_x, -screen_y_offset - mouse_y);
         }
 
     }
@@ -202,8 +189,6 @@ public class main extends BasicGame {
                 }
             }
         }
-        g.drawImage(unit1.getSprite().getImage(),unit1.getIsoX() - unit1.getSprite().getX_offset(),unit1.getIsoY() - unit1.getSprite().getY_offset());
-        g.drawImage(unit2.getSprite().getImage(),unit2.getIsoX() - unit2.getSprite().getX_offset(),unit2.getIsoY() - unit2.getSprite().getY_offset());
         if (mo != null){
             mo.draw(g, screen_x_offset, screen_y_offset);
         }

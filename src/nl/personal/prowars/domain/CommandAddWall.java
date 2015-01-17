@@ -11,7 +11,7 @@ public class CommandAddWall extends MouseObject {
     private Sprite sprite;
 
     public CommandAddWall(int x_pos, int y_pos) {
-        sprite = new Sprite("wall_15", 160, 165);
+        sprite = new Sprite("wall_0",  137, 165);
         setMousePos(x_pos, y_pos);
     }
 
@@ -22,8 +22,8 @@ public class CommandAddWall extends MouseObject {
 
     @Override
     public void setMousePos(int x, int y) {
-        x_pos = x - (x % main.TILE_HEIGHT);
-        y_pos = y - (y % main.TILE_HEIGHT);
+        x_pos = 0;//??
+        y_pos = 0;//??
     }
 
     @Override
@@ -32,10 +32,10 @@ public class CommandAddWall extends MouseObject {
     }
 
     public int getIsoX(){
-        return (x_pos-y_pos) - sprite.getX_offset();
+        return (x_pos-y_pos);
     }
 
     public int getIsoY(){
-        return ((x_pos+y_pos)/2) - sprite.getY_offset();
+        return ((x_pos+y_pos)/2);
     }
 }
