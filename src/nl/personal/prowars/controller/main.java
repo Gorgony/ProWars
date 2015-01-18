@@ -19,7 +19,7 @@ import java.awt.Font;
 
 public class main extends BasicGame {
     public static final int SCREEN_WIDTH = 1280;
-    public static final int SCREEN_HEIGHT = 800;
+    public static final int SCREEN_HEIGHT = 700;
     public static boolean FULL_SCREEN = false;
     public static final int TILE_HEIGHT = 256;
     public static final float SCREEN_SCALING = 1/2f; //TODO: must be mutable
@@ -28,8 +28,12 @@ public class main extends BasicGame {
     public static final int MIN_SCREEN_Y_OFFSET = -NR_TILES*TILE_HEIGHT + (int) (SCREEN_HEIGHT/SCREEN_SCALING);
     public static final int MAX_SCREEN_X_OFFSET = NR_TILES*TILE_HEIGHT;
     public static final int MAX_SCREEN_Y_OFFSET = TILE_HEIGHT;
-    public int screen_y_offset = TILE_HEIGHT;
-    public int screen_x_offset = (int) (SCREEN_WIDTH/(2*SCREEN_SCALING));
+//    public int screen_y_offset = TILE_HEIGHT;
+//    public int screen_x_offset = (int) (SCREEN_WIDTH/(2*SCREEN_SCALING));
+    public int screen_y_offset = 0;
+    public int screen_x_offset = 0;
+    int mouse_x;
+    int mouse_y;
     Unit unit1;
     Unit unit2;
     Font font = new Font("Verdana", Font.BOLD, 32);
@@ -64,41 +68,50 @@ public class main extends BasicGame {
         ttf = new TrueTypeFont(font, true);
         tile = new Sprite("tile", 256, 128);
         ct = new ConsoleText();
-        mo = new CommandAddWall(Mouse.getX() + screen_x_offset, Mouse.getY() + screen_y_offset);
+//        mo = new CommandAddWall(Mouse.getX() + screen_x_offset, Mouse.getY() + screen_y_offset);
+        addWall(2,2);
+        addWall(2,3);
+        addWall(2,4);
     }
 
     @Override
     public  void keyReleased(int key, char c){
-        if (c == 13){ //Show console/execute command
-            if (ct.isActive()){ //Execute command
-                String command = ct.getText().toLowerCase();
-                if (command.equals("")){
-                    ct.setActive(false);
-                } else if (command.equals("help")){ //TODO: Let the command be handled by a separate class
-                    ct.setText("Shows this help");
-                } else if (command.equals("add wall")){
-                    mo = new CommandAddWall(Mouse.getX() + screen_x_offset, Mouse.getY() + screen_y_offset);
-                }
-            } else{ //Show console
-                ct.setActive(true);
-            }
+        if (c == 13){
+            System.out.println(mouse_x);
+            System.out.println(mouse_y);
+            System.out.println(screen_x_offset);
+            System.out.println(screen_y_offset);
         }
-        if (ct.isActive()){
-            if (c >= 32 && c <= 126){
-                ct.addChar(c);
-            } else if (c == 8){
-                ct.removeChar();
-            }
-        }
+//        if (c == 13){ //Show console/execute command
+//            if (ct.isActive()){ //Execute command
+//                String command = ct.getText().toLowerCase();
+//                if (command.equals("")){
+//                    ct.setActive(false);
+//                } else if (command.equals("help")){ //TODO: Let the command be handled by a separate class
+//                    ct.setText("Shows this help");
+//                } else if (command.equals("add wall")){
+//                    mo = new CommandAddWall(Mouse.getX() + screen_x_offset, Mouse.getY() + screen_y_offset);
+//                }
+//            } else{ //Show console
+//                ct.setActive(true);
+//            }
+//        }
+//        if (ct.isActive()){
+//            if (c >= 32 && c <= 126){
+//                ct.addChar(c);
+//            } else if (c == 8){
+//                ct.removeChar();
+//            }
+//        }
     }
 
 
     @Override
     public void update(GameContainer container, int delta) throws SlickException {
         //Get input data
-        int mouse_x = Mouse.getX();
-        int mouse_y = Mouse.getY();
-        //
+        mouse_x = Mouse.getX();
+        mouse_y = Mouse.getY();
+
         if (mouse_x < 25){
             screen_x_offset += 16;
             if (screen_x_offset > MAX_SCREEN_X_OFFSET){
@@ -124,7 +137,7 @@ public class main extends BasicGame {
             }
         }
         if (mo != null){
-            mo.setMousePos(screen_x_offset + mouse_x, -screen_y_offset - mouse_y);
+            mo.setMousePos(screen_x_offset + mouse_x, screen_y_offset - mouse_y);
         }
 
     }
@@ -164,7 +177,7 @@ public class main extends BasicGame {
                 iso_x += screen_x_offset;
                 int iso_y = ((x+y)/2);
                 iso_y += screen_y_offset;
-                g.drawImage(tile.getImage(), iso_x - tile.getX_offset(), iso_y);
+                g.drawImage(tile.getImage(), iso_x - tile.getX_offset(), iso_y - tile.getY_offset());
                 GameObject temp = searchBuilding(x_tile,y_tile);
                 if(temp != null){
                     //g.drawImage(temp.getSprite().getImage(), temp.getIsoX() + screen_x_offset, temp.getIsoY() + screen_y_offset); dit zou eigenlijk ook moeten, maar dan moet er eerst worden nagedacht over andere zaken. Bovendien zal niet elk object altijd zichtbaar zijn en daarbij ook niet te worden gedrawed..
