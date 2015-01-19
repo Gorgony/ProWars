@@ -1,6 +1,5 @@
 package nl.personal.prowars.domain;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -9,22 +8,22 @@ import java.util.ArrayList;
 public class Wall extends GameObject {
     public Wall(int x_pos, int y_pos) {
         super(x_pos, y_pos, "Building");
-        addSprite(new Sprite("wall_0", 137, 293));
-        addSprite(new Sprite("wall_1", 137, 293));
-        addSprite(new Sprite("wall_2", 137, 293));
-        addSprite(new Sprite("wall_3", 137, 293));
-        addSprite(new Sprite("wall_4", 160, 293));
-        addSprite(new Sprite("wall_5", 160, 249));
-        addSprite(new Sprite("wall_6", 160, 293));
-        addSprite(new Sprite("wall_7", 160, 293));
-        addSprite(new Sprite("wall_8", 160, 293));
-        addSprite(new Sprite("wall_9", 160, 293));
-        addSprite(new Sprite("wall_10", 160, 249));
-        addSprite(new Sprite("wall_11", 160, 293));
-        addSprite(new Sprite("wall_12", 160, 293));
-        addSprite(new Sprite("wall_13", 160, 293));
-        addSprite(new Sprite("wall_14", 160, 293));
-        addSprite(new Sprite("wall_15", 160, 293));
+        addSprite(new Sprite("wall_0", -119, 165));
+        addSprite(new Sprite("wall_1", -119, 165));
+        addSprite(new Sprite("wall_2", -119, 165));
+        addSprite(new Sprite("wall_3", -119, 165));
+        addSprite(new Sprite("wall_4", -94, 165));
+        addSprite(new Sprite("wall_5", -94, 121));
+        addSprite(new Sprite("wall_6", -94, 165));
+        addSprite(new Sprite("wall_7", -94, 165));
+        addSprite(new Sprite("wall_8", -94, 165));
+        addSprite(new Sprite("wall_9", -94, 165));
+        addSprite(new Sprite("wall_10", -94, 121));
+        addSprite(new Sprite("wall_11", -94, 165));
+        addSprite(new Sprite("wall_12", -94, 165));
+        addSprite(new Sprite("wall_13", -94, 165));
+        addSprite(new Sprite("wall_14", -94, 165));
+        addSprite(new Sprite("wall_15", -94, 165));
     }
 
     @Override

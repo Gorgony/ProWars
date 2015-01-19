@@ -1,7 +1,6 @@
 package nl.personal.prowars.domain;
 
 
-
 import java.util.ArrayList;
 
 /**
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 public abstract class GameObject {
     private int x_pos, y_pos, dir;
     private String type;
-    private ArrayList<Sprite> spriteList;
+    private ArrayList<Sprite> spriteList; //Deze moet static zijn, maar dan wel bij de klassen die GameObject extenden en niet bij GameObject zelf
 
     public GameObject(int x_pos, int y_pos, String type){
         this.x_pos = x_pos;
@@ -81,10 +80,10 @@ public abstract class GameObject {
     abstract boolean checkCollision(int x, int y);
 
     public int getIsoX(){
-        return (x_pos-y_pos) - spriteList.get(dir).getX_offset();
+        return (x_pos-y_pos);
     }
 
     public int getIsoY(){
-        return ((x_pos+y_pos)/2) - spriteList.get(dir).getY_offset();
+        return (x_pos+y_pos)/2;
     }
 }

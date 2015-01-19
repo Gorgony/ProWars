@@ -9,10 +9,6 @@ public abstract class MouseObject {
     public abstract boolean onClick();
     public abstract void setMousePos(int x, int y);
     public abstract void draw(Graphics g, int x_offset, int y_offset);
-    public int getCartX(int isoX, int isoY){
-        return (2 * isoY + isoX) / 2;
-    }
-    public int getCartY(int isoX, int isoY){
-        return(2 * isoY - isoX) / 2;
-    }
+    public abstract int getX();
+    public abstract int getY();
 }
