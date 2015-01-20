@@ -3,6 +3,8 @@ package nl.personal.prowars.domain;
 import nl.personal.prowars.controller.main;
 import org.newdawn.slick.Graphics;
 
+import java.util.ArrayList;
+
 /**
  * Created by maarten on 15-1-2015.
  */
@@ -16,7 +18,14 @@ public class CommandAddWall extends MouseObject {
     }
 
     @Override
-    public boolean onClick() {
+    public boolean onClick(ArrayList<GameObject> game_objects) {
+        for (GameObject g : game_objects) {
+            if (g instanceof Wall) {
+                if (g.getX_pos() == (x_pos/256) && g.getY_pos() == (y_pos/256) ) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 

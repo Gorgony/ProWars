@@ -106,9 +106,10 @@ public class main extends BasicGame {
     public void mouseClicked(int button, int x, int y, int clickCount){
         if (button == 0){
             if (mo != null){
-                if (mo.onClick()){
+                if (mo.onClick(game_objects)){
                     addWall(mo.getX()/TILE_HEIGHT, mo.getY()/TILE_HEIGHT);
                     mo = null;
+                    ct.setActive(false);
                 }
             }
         }
