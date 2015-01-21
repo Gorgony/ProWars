@@ -6,14 +6,14 @@ package nl.personal.prowars.domain;
 public class Unit extends GameObject {
     public Unit(int x, int y){
         super(x,y,"Unit");
-        addSprite(new Sprite("guy_0",35,130));
-        addSprite(new Sprite("guy_1",35,130));
-        addSprite(new Sprite("guy_2",35,130));
-        addSprite(new Sprite("guy_3",35,130));
-        addSprite(new Sprite("guy_4",35,130));
-        addSprite(new Sprite("guy_5",35,130));
-        addSprite(new Sprite("guy_6",35,130));
-        addSprite(new Sprite("guy_7",35,130));
+        addSprite(new Sprite("guy_0", -221,98));
+        addSprite(new Sprite("guy_1", -221,98));
+        addSprite(new Sprite("guy_2", -221,98));
+        addSprite(new Sprite("guy_3", -221,98));
+        addSprite(new Sprite("guy_4", -221,98));
+        addSprite(new Sprite("guy_5", -221,98));
+        addSprite(new Sprite("guy_6", -221,98));
+        addSprite(new Sprite("guy_7", -221,98));
     }
 
     @Override

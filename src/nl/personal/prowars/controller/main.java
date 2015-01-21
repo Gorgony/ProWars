@@ -3,6 +3,10 @@
 package nl.personal.prowars.controller;
 
 import nl.personal.prowars.domain.*;
+import nl.personal.prowars.domain.commands.CommandAddUnit;
+import nl.personal.prowars.domain.commands.CommandAddWall;
+import nl.personal.prowars.domain.commands.ConsoleText;
+import nl.personal.prowars.domain.commands.MouseObject;
 import org.lwjgl.input.Mouse; //Why does -> http://slick.ninjacave.com/javadoc/org/newdawn/slick/Input.html#getMouseX() not work
 import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
@@ -12,19 +16,19 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static org.lwjgl.opengl.Display.getAvailableDisplayModes;
-
 /**
  * Created by Nathan on 29/12/2014, edited by Nathan and Maarten.
  */
 
 
 public class main extends BasicGame {
-    public static final int SCREEN_WIDTH = 1920;
-    public static final int SCREEN_HEIGHT = 1080;
+//    public static final int SCREEN_WIDTH = 1920;
+//    public static final int SCREEN_HEIGHT = 1080;
     //public static final int SCREEN_WIDTH = 1366;
     //public static final int SCREEN_HEIGHT = 768;
-    public static boolean FULL_SCREEN = true;
+    public static final int SCREEN_WIDTH = 640;
+    public static final int SCREEN_HEIGHT = 480;
+    public static boolean FULL_SCREEN = false;
     public static final int TILE_HEIGHT = 256;
     public static final float SCREEN_SCALING = 1/2f; //TODO: must be mutable
     public static final int NR_TILES =20;
@@ -69,8 +73,6 @@ public class main extends BasicGame {
         ttf = new TrueTypeFont(font, true);
         tile = new Sprite("tile", 256, 128);
         ct = new ConsoleText();
-        mo = new CommandAddWall(0,0);
-        addWall(0,0);
     }
 
     @Override
@@ -84,6 +86,8 @@ public class main extends BasicGame {
                     ct.setText("Shows this help");
                 } else if (command.equals("add wall")){
                     mo = new CommandAddWall(Mouse.getX() + screen_x_offset, Mouse.getY() + screen_y_offset);
+                } else if (command.equals("add unit")){
+                    mo = new CommandAddUnit(Mouse.getX() + screen_x_offset, Mouse.getY() + screen_y_offset);
                 }
             } else{ //Show console
                 ct.setActive(true);
@@ -96,6 +100,10 @@ public class main extends BasicGame {
                 ct.removeChar();
             }
         }
+        if (key == 1){
+            ct.setActive(false);
+            mo = null;
+        }
     }
 
     @Override
@@ -103,9 +111,15 @@ public class main extends BasicGame {
         if (button == 0){
             if (mo != null){
                 if (mo.onClick(game_objects)){
-                    addWall(mo.getX()/TILE_HEIGHT, mo.getY()/TILE_HEIGHT);
-                    Collections.sort(game_objects);
-                    mo = null;
+                    if (mo.getType().equals("wall")){
+                        addWall(mo.getX()/TILE_HEIGHT, mo.getY()/TILE_HEIGHT);
+                        Collections.sort(game_objects);
+                    } else if (mo.getType().equals("unit")){
+                        Unit temp = new Unit(mo.getX(), mo.getY());
+                        temp.setDir(4);
+                        game_objects.add(temp);
+                        Collections.sort(game_objects);
+                    }
                     ct.setActive(false);
                 }
             }
@@ -214,32 +228,4 @@ public class main extends BasicGame {
         }
 
     }
-
-    public void renderSorted(GameContainer container, Graphics g) throws SlickException{
-        int screen_x_offset = (int) (SCREEN_WIDTH/(2*SCREEN_SCALING));
-        //Render tiles
-        for(int i = 0; i < NR_TILES; i++){
-            for(int j = 0; j <= i; j++){
-                int x_tile = (i - j);
-                int y_tile = j;
-                int x = x_tile * TILE_HEIGHT;
-                int y = y_tile * TILE_HEIGHT;
-                int iso_x = x-y;
-                int iso_y = ((x+y)/2) ;
-                g.drawImage(tile.getImage(), iso_x + screen_x_offset - tile.getX_offset(), iso_y);
-            }
-        }
-        for(int i = 1; i < NR_TILES; i++) {
-            for (int j = i; j < NR_TILES; j++) {
-                int x_tile = (NR_TILES - 1 - (j - i));
-                int y_tile = j;
-                int x = x_tile*TILE_HEIGHT;
-                int y = y_tile*TILE_HEIGHT;
-                int iso_x = x-y;
-                int iso_y = (x+y)/2;
-                g.drawImage(tile.getImage(), iso_x + screen_x_offset - tile.getX_offset(), iso_y);
-            }
-        }
-    }
-    //Render all the items in the game_objects list
 }

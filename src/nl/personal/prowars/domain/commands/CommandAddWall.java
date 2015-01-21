@@ -1,6 +1,9 @@
-package nl.personal.prowars.domain;
+package nl.personal.prowars.domain.commands;
 
 import nl.personal.prowars.controller.main;
+import nl.personal.prowars.domain.GameObject;
+import nl.personal.prowars.domain.Sprite;
+import nl.personal.prowars.domain.Wall;
 import org.newdawn.slick.Graphics;
 
 import java.util.ArrayList;
@@ -13,12 +16,14 @@ public class CommandAddWall extends MouseObject {
     private Sprite sprite;
 
     public CommandAddWall(int x_pos, int y_pos) {
+        super("wall");
         sprite = new Sprite("wall_0", -119, 165);
         setMousePos(x_pos, y_pos);
     }
 
     @Override
     public boolean onClick(ArrayList<GameObject> game_objects) {
+        //TODO:collision check on all objects
         for (GameObject g : game_objects) {
             if (g instanceof Wall) {
                 if (g.getX_pos() == (x_pos/256) && g.getY_pos() == (y_pos/256) ) {
@@ -71,6 +76,4 @@ public class CommandAddWall extends MouseObject {
     public int getIsoY(){
         return ((x_pos+y_pos)/2);
     }
-
-
 }

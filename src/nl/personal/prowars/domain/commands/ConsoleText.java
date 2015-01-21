@@ -1,4 +1,4 @@
-package nl.personal.prowars.domain;
+package nl.personal.prowars.domain.commands;
 
 /**
  * Created by maarten on 12-1-2015.
