@@ -3,15 +3,16 @@
 package nl.personal.prowars.controller;
 
 import nl.personal.prowars.domain.*;
-import org.lwjgl.Sys;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse; //Why does -> http://slick.ninjacave.com/javadoc/org/newdawn/slick/Input.html#getMouseX() not work
 import org.newdawn.slick.*;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 
-import java.awt.image.VolatileImage;
-import java.security.Key;
-import java.util.ArrayList;
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.Collections;
+
+import static org.lwjgl.opengl.Display.getAvailableDisplayModes;
 
 /**
  * Created by Nathan on 29/12/2014, edited by Nathan and Maarten.
@@ -19,10 +20,11 @@ import java.awt.Font;
 
 
 public class main extends BasicGame {
-
-    public static final int SCREEN_WIDTH = 1280;
-    public static final int SCREEN_HEIGHT = 700;
-    public static boolean FULL_SCREEN = false;
+    public static final int SCREEN_WIDTH = 1920;
+    public static final int SCREEN_HEIGHT = 1080;
+    //public static final int SCREEN_WIDTH = 1366;
+    //public static final int SCREEN_HEIGHT = 768;
+    public static boolean FULL_SCREEN = true;
     public static final int TILE_HEIGHT = 256;
     public static final float SCREEN_SCALING = 1/2f; //TODO: must be mutable
     public static final int NR_TILES =20;
@@ -73,12 +75,6 @@ public class main extends BasicGame {
 
     @Override
     public  void keyReleased(int key, char c){
-        if (c == 13){
-            System.out.println(mouse_x);
-            System.out.println(mouse_y);
-            System.out.println(screen_x_offset);
-            System.out.println(screen_y_offset);
-        }
         if (c == 13){ //Show console/execute command
             if (ct.isActive()){ //Execute command
                 String command = ct.getText().toLowerCase();
@@ -108,13 +104,13 @@ public class main extends BasicGame {
             if (mo != null){
                 if (mo.onClick(game_objects)){
                     addWall(mo.getX()/TILE_HEIGHT, mo.getY()/TILE_HEIGHT);
+                    Collections.sort(game_objects);
                     mo = null;
                     ct.setActive(false);
                 }
             }
         }
     }
-
 
     @Override
     public void update(GameContainer container, int delta) throws SlickException {
@@ -123,25 +119,25 @@ public class main extends BasicGame {
         mouse_y = Mouse.getY();
 
         if (mouse_x < 25){
-            screen_x_offset += 16;
+            screen_x_offset += 24;
             if (screen_x_offset > MAX_SCREEN_X_OFFSET){
                 screen_x_offset = MAX_SCREEN_X_OFFSET;
             }
         }
         else if (mouse_x > (SCREEN_WIDTH - 25)){
-            screen_x_offset -= 16;
+            screen_x_offset -= 24;
             if (screen_x_offset < MIN_SCREEN_X_OFFSET){
                 screen_x_offset = MIN_SCREEN_X_OFFSET;
             }
         }
         if (mouse_y < 25){
-            screen_y_offset -= 16;
+            screen_y_offset -= 24;
             if (screen_y_offset < MIN_SCREEN_Y_OFFSET){
                 screen_y_offset = MIN_SCREEN_Y_OFFSET;
             }
         }
         else if (mouse_y > (SCREEN_HEIGHT - 25)){
-            screen_y_offset += 16;
+            screen_y_offset += 24;
             if (screen_y_offset > MAX_SCREEN_Y_OFFSET){
                 screen_y_offset = MAX_SCREEN_Y_OFFSET;
             }
@@ -168,7 +164,7 @@ public class main extends BasicGame {
     }
 
     public void addWall(int x, int y){
-        Wall tempWall = new Wall(x,y);
+        Wall tempWall = new Wall(x*TILE_HEIGHT,y*TILE_HEIGHT);
         game_objects.add(tempWall);
         tempWall.setDirection(game_objects,true);
     }
@@ -186,11 +182,6 @@ public class main extends BasicGame {
                 int iso_y = ((x+y)/2);
                 iso_y += screen_y_offset;
                 g.drawImage(tile.getImage(), iso_x , iso_y);
-                GameObject temp = searchBuilding(x_tile,y_tile);
-                if(temp != null){
-                    //g.drawImage(temp.getSprite().getImage(), temp.getIsoX() + screen_x_offset, temp.getIsoY() + screen_y_offset); dit zou eigenlijk ook moeten, maar dan moet er eerst worden nagedacht over andere zaken. Bovendien zal niet elk object altijd zichtbaar zijn en daarbij ook niet te worden gedrawed..
-                    g.drawImage(temp.getSprite().getImage(), iso_x - temp.getSprite().getX_offset(), iso_y - temp.getSprite().getY_offset());
-                }
             }
         }
         for(int i = 1; i < NR_TILES; i++) {
@@ -204,11 +195,10 @@ public class main extends BasicGame {
                 int iso_y = (x+y)/2;
                 iso_y += screen_y_offset;
                 g.drawImage(tile.getImage(), iso_x , iso_y);
-                GameObject temp = searchBuilding(x_tile,y_tile);
-                if(temp != null) {
-                    g.drawImage(temp.getSprite().getImage(), iso_x - temp.getSprite().getX_offset(), iso_y - temp.getSprite().getY_offset());
-                }
             }
+        }
+        for(GameObject game_object: game_objects){
+            g.drawImage(game_object.getSprite().getImage(), game_object.getIsoX() - game_object.getSprite().getX_offset() + screen_x_offset, game_object.getIsoY() - game_object.getSprite().getY_offset() + screen_y_offset);
         }
         if (mo != null){
             mo.draw(g, screen_x_offset, screen_y_offset);

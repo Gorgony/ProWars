@@ -1,5 +1,7 @@
 package nl.personal.prowars.domain;
 
+import nl.personal.prowars.controller.main;
+
 import java.util.ArrayList;
 
 /**
@@ -40,16 +42,16 @@ public class Wall extends GameObject {
         int temp_dir = 0;
         for (GameObject g : objects) {
             if (g instanceof Wall) {
-                if (g.getX_pos() == getX_pos() && g.getY_pos() == (getY_pos() - 1)) {
+                if (g.getX_pos() == getX_pos() && g.getY_pos() == (getY_pos() - main.TILE_HEIGHT)) {
                     temp_dir += 1; //Bovenkant is verbonden met een muur
                     if(update_others) {((Wall) g).setDirection(objects,false);}
-                } else if (g.getX_pos() == (getX_pos() + 1) && g.getY_pos() == getY_pos()) {
+                } else if (g.getX_pos() == (getX_pos() + main.TILE_HEIGHT) && g.getY_pos() == getY_pos()) {
                     temp_dir += 2; //Rechterkant is verbonden met een muur
                     if(update_others) {((Wall) g).setDirection(objects,false);}
-                } else if (g.getX_pos() == (getX_pos() - 1) && g.getY_pos() == getY_pos()) {
+                } else if (g.getX_pos() == (getX_pos() - main.TILE_HEIGHT) && g.getY_pos() == getY_pos()) {
                     temp_dir += 8; //Onderkant is verbonden met een muur
                     if(update_others) {((Wall) g).setDirection(objects,false);}
-                } else if (g.getX_pos() == getX_pos() && g.getY_pos() == (getY_pos() + 1)) {
+                } else if (g.getX_pos() == getX_pos() && g.getY_pos() == (getY_pos() + main.TILE_HEIGHT)) {
                     temp_dir += 4; //Linkerkant is verbonden met een muur
                     if(update_others) {((Wall) g).setDirection(objects,false);}
                 }
