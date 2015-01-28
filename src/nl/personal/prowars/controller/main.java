@@ -22,22 +22,18 @@ import java.util.Collections;
 
 
 public class main extends BasicGame {
-//    public static final int SCREEN_WIDTH = 1920;
-//    public static final int SCREEN_HEIGHT = 1080;
-    //public static final int SCREEN_WIDTH = 1366;
-    //public static final int SCREEN_HEIGHT = 768;
-    public static final int SCREEN_WIDTH = 640;
-    public static final int SCREEN_HEIGHT = 480;
-    public static boolean FULL_SCREEN = false;
+    public static int SCREEN_WIDTH;
+    public static int SCREEN_HEIGHT;
+    public static boolean FULL_SCREEN = true;
     public static final int TILE_HEIGHT = 256;
     public static final float SCREEN_SCALING = 1/2f; //TODO: must be mutable
     public static final int NR_TILES =20;
-    public static final int MIN_SCREEN_X_OFFSET = -(NR_TILES + 1)*TILE_HEIGHT + (int) (SCREEN_WIDTH/SCREEN_SCALING);
-    public static final int MIN_SCREEN_Y_OFFSET = -NR_TILES*TILE_HEIGHT + (int) (SCREEN_HEIGHT/SCREEN_SCALING);
-    public static final int MAX_SCREEN_X_OFFSET = NR_TILES*TILE_HEIGHT;
-    public static final int MAX_SCREEN_Y_OFFSET = TILE_HEIGHT;
-    public int screen_y_offset = TILE_HEIGHT;
-    public int screen_x_offset = (int) (SCREEN_WIDTH/(2*SCREEN_SCALING) - TILE_HEIGHT);
+    public static int MIN_SCREEN_X_OFFSET;
+    public static int MIN_SCREEN_Y_OFFSET;
+    public static int MAX_SCREEN_X_OFFSET;
+    public static int MAX_SCREEN_Y_OFFSET;
+    public static int screen_y_offset;
+    public static int screen_x_offset;
     int mouse_x;
     int mouse_y;
     Font font = new Font("Verdana", Font.BOLD, 32);
@@ -53,6 +49,15 @@ public class main extends BasicGame {
         main game = new main("ProWars");
         try{
             AppGameContainer game_container = new AppGameContainer(game);
+            SCREEN_WIDTH = game_container.getScreenWidth();
+            SCREEN_HEIGHT = game_container.getScreenHeight();
+            MIN_SCREEN_X_OFFSET = -(NR_TILES + 1)*TILE_HEIGHT + (int) (SCREEN_WIDTH/SCREEN_SCALING);
+            MIN_SCREEN_Y_OFFSET = -NR_TILES*TILE_HEIGHT + (int) (SCREEN_HEIGHT/SCREEN_SCALING);
+            MAX_SCREEN_X_OFFSET = NR_TILES*TILE_HEIGHT;
+            MAX_SCREEN_Y_OFFSET = TILE_HEIGHT;
+            screen_y_offset = TILE_HEIGHT;
+            screen_x_offset = (int) (SCREEN_WIDTH/(2*SCREEN_SCALING) - TILE_HEIGHT);
+
             System.out.println(game_container.getScreenWidth());
             game_container.setTargetFrameRate(60);
             game_container.setVSync(true);
@@ -165,16 +170,6 @@ public class main extends BasicGame {
     public void render(GameContainer container, Graphics g) throws SlickException {
         g.scale(SCREEN_SCALING, SCREEN_SCALING);
         renderNormal(container, g);
-    }
-
-    public GameObject searchBuilding(int x, int y){
-        GameObject result = null;
-        for(GameObject g : game_objects){
-            if(g.getX_pos() == x && g.getY_pos() == y && g.getType().equals("Building")){
-                result = g;
-            }
-        }
-        return result;
     }
 
     public void addWall(int x, int y){
